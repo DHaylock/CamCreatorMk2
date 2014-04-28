@@ -1,0 +1,30 @@
+<Widget>
+    <Kind>28</Kind>
+    <Name>Gradient_Color_1</Name>
+    <XValue>0.133333340</XValue>
+    <YValue>0.482352942</YValue>
+    <RColor>142</RColor>
+    <GColor>255</GColor>
+    <BColor>255</BColor>
+    <AColor>255</AColor>
+</Widget>
+<Widget>
+    <Kind>28</Kind>
+    <Name>Gradient_Color_2</Name>
+    <XValue>0.325490206</XValue>
+    <YValue>0.325490206</YValue>
+    <RColor>14</RColor>
+    <GColor>60</GColor>
+    <BColor>239</BColor>
+    <AColor>255</AColor>
+</Widget>
+<Widget>
+    <Kind>44</Kind>
+    <Name>BG1Alpha</Name>
+    <Value>228</Value>
+</Widget>
+<Widget>
+    <Kind>44</Kind>
+    <Name>BG2Alpha</Name>
+    <Value>255</Value>
+</Widget>

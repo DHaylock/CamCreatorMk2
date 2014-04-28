@@ -1,0 +1,75 @@
+<Widget>
+    <Kind>8</Kind>
+    <Name>Play_Speed</Name>
+    <Value>0.500000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>Play_Rate</Name>
+    <Value>10.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>Degrees_RotatedPB</Name>
+    <Value>168.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Show Camera</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Show Lines</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Show Shape</Name>
+    <Value>1</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Show Outline</Name>
+    <Value>1</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Show Circles</Name>
+    <Value>1</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Show Data</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>28</Kind>
+    <Name>Shape_Color</Name>
+    <XValue>0.466666669</XValue>
+    <YValue>0.670588255</YValue>
+    <RColor>67</RColor>
+    <GColor>165</GColor>
+    <BColor>0</BColor>
+    <AColor>255</AColor>
+</Widget>
+<Widget>
+    <Kind>28</Kind>
+    <Name>Line_Color</Name>
+    <XValue>0.458823532</XValue>
+    <YValue>0.349019617</YValue>
+    <RColor>52</RColor>
+    <GColor>0</GColor>
+    <BColor>152</BColor>
+    <AColor>255</AColor>
+</Widget>
+<Widget>
+    <Kind>44</Kind>
+    <Name>SAlpha</Name>
+    <Value>92</Value>
+</Widget>
+<Widget>
+    <Kind>44</Kind>
+    <Name>LAlpha</Name>
+    <Value>100</Value>
+</Widget>

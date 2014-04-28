@@ -1,0 +1,40 @@
+<Widget>
+    <Kind>8</Kind>
+    <Name>Record_Rate</Name>
+    <Value>50.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>Rotation_Rate</Name>
+    <Value>1.000000119</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>OSC or Debug</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>12</Kind>
+    <Name>HOST</Name>
+    <Value>localhost</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>OSC_PORT</Name>
+    <Value>3000.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>26</Kind>
+    <Name>Arm Pos</Name>
+    <Value>355.294128418</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>Points_Added</Name>
+    <Value>120.000000000</Value>
+</Widget>
+<Widget>
+    <Kind>8</Kind>
+    <Name>Degrees_Rotated</Name>
+    <Value>360.000000000</Value>
+</Widget>
