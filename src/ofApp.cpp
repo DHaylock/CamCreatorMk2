@@ -4,10 +4,10 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+    ofSetDataPathRoot("../Resources/data/");
     ofSetWindowTitle("Cam Creator");
     setupGuis();
     setupValues();
-    //setupOsc();
 }
 //--------------------------------------------------------------
 void ofApp::update(){
@@ -24,7 +24,8 @@ void ofApp::update(){
     }
     else
     {
-        ofLog(OF_LOG_ERROR, "ERROR: No Mode Selected");
+        ofLog(OF_LOG_ERROR, "ERROR: No Update Mode Selected");
+        ofSystemAlertDialog("Error: No Update Mode Selected");
     }
     
     updateGUIelements();
@@ -33,7 +34,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw()
 {
-    //---------------Fancy Background ( Will add a none fancy background soon) ---------------
+    //---------------Fancy Background ( Will add a none fancy background soon )---------------
     ofBackgroundGradient(bgColor1,bgColor2, OF_GRADIENT_CIRCULAR);
     
     //---------------Select Which Drawing Mode---------------
@@ -47,7 +48,8 @@ void ofApp::draw()
     }
     else
     {
-        ofLog(OF_LOG_NOTICE,"ERROR: No Valid Mode Selected");
+        ofLog(OF_LOG_NOTICE,"ERROR: No Draw Mode Selected");
+        ofSystemAlertDialog("Error: No Draw Mode Selected");
     }
     
     drawCreatorArm();
@@ -138,6 +140,7 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
     else
     {
         //Nothing
+        ofSystemAlertDialog("Please Turn The Import Toggle to Active");
     }
     
 }
@@ -301,7 +304,6 @@ void ofApp::setupRecordGui()
     guiRecord->addSpacer();
     guiRecord->addWidgetDown(new ofxUILabelButton("Record Data", false,LENGTH,HEIGHT,OFX_UI_FONT_LARGE));
     guiRecord->addWidgetDown(new ofxUILabelButton("Clear", false,LENGTH,HEIGHT,OFX_UI_FONT_LARGE));
-    //guiRecord->addWidgetDown(new ofxUILabelButton("Save", false,LENGTH,HEIGHT,OFX_UI_FONT_MEDIUM));
     guiRecord->addSpacer();
     guiRecord->addWidgetDown(new ofxUILabel("Record Settings", OFX_UI_FONT_MEDIUM));
     guiRecord->addSpacer();
@@ -355,7 +357,7 @@ void ofApp::setupDebugGui()
 //--------------------------------------------------------------
 void ofApp::setupCameraGui()
 {
-    guiCamera = new ofxUICanvas(264,170,LENGTH,800);
+    guiCamera = new ofxUICanvas(525,140,LENGTH,800);
     guiCamera->setTheme(OFX_UI_THEME_HAYLOCK);
     guiCamera->addWidgetDown(new ofxUILabel("Camera Controls", OFX_UI_FONT_LARGE));
     guiCamera->addWidgetDown(new ofxUILabelToggle("Use Mouse",false, LENGTH, HEIGHT,OFX_UI_FONT_MEDIUM,false));
@@ -481,6 +483,7 @@ void ofApp::importMode(string file)
     else
     {
         ((ofxUILabel *) guiImport->getWidget("No File Loaded"))->setLabel("Unable to Load File");
+        ofSystemAlertDialog("Error: File Loaded");
     }
 }
 //--------------------------------------------------------------
@@ -775,32 +778,30 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
     {
         ofxUILabelToggle *toggle = (ofxUILabelToggle *) e.widget;
         guiRecord->setVisible(toggle->getValue());
-        //recordMode = toggle->getValue();
+        guiCamera->setVisible(false);
         rPmode = true;
     }
     else if(e.widget->getName() == "OSC")
     {
         ofxUIToggle *toggle = (ofxUIToggle *) e.widget;
-        //guiDebug->setVisible(toggle->getValue());
         debugMode = toggle->getValue();
+        guiCamera->setVisible(false);
     }
     else if(e.widget->getName() == "Playback")
     {
         ofxUILabelToggle *toggle = (ofxUILabelToggle *) e.widget;
         guiPlayback->setVisible(toggle->getValue());
-        //playbackMode =  toggle->getValue();
         rPmode = false;
     }
     else if(e.widget->getName() == "Import")
     {
         ofxUILabelToggle *toggle = (ofxUILabelToggle *) e.widget;
         guiImport->setVisible(toggle->getValue());
-        //bImportMode = toggle->getValue();
+        guiCamera->setVisible(false);
     }
     else if(e.widget->getName() == "Active")
     {
         ofxUILabelToggle *toggle = (ofxUILabelToggle *) e.widget;
-        //dguiImport->setVisible(toggle->getValue());
         bImportMode = toggle->getValue();
     }
     else if(e.widget->getName() == "Record_Rate")
@@ -820,7 +821,6 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         playbackRotationSpeed = dial->getValue();
         speedOfPlaybackRotation = dial->getValue();
         playbackRotateAmount.set(ZERO,ZERO,dial->getValue());
-        
     }
     else if(e.widget->getName() == "OSC_PORT")
     {
@@ -831,7 +831,6 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
     {
         ofxUINumberDialer *dial = (ofxUINumberDialer *) e.widget;
         playbackEndTime = dial->getValue();
-        cout << dial->getValue() << endl;
     }
     else if(e.widget->getName() == "Shape_Color")
     {
@@ -923,16 +922,6 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         rotatedAmount = 0;
         isRecording = true;
     }
-    else if(e.widget->getName() == "Draw Shader")
-    {
-        ofxUIButton *toggle = (ofxUIButton *) e.widget;
-        drawShader =  toggle->getValue();
-    }
-    else if(e.widget->getName() == "Record/Playback")
-    {
-        ofxUIButton *toggle = (ofxUIButton *) e.widget;
-        //rPmode =  toggle->getValue();
-    }
     else if(e.widget->getName() == "Rotation Speed")
     {
         ofxUISlider *slider = (ofxUISlider *) e.widget;
@@ -951,9 +940,6 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         bgColor1.r = sampler->getColor().r;
         bgColor1.g = sampler->getColor().g;
         bgColor1.b = sampler->getColor().b;
-        
-        cout << bgColor1 << endl;
-        
     }
     else if(e.widget->getName() == "Gradient_Color_2")
     {
@@ -961,7 +947,6 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         bgColor2.r = sampler->getColor().r;
         bgColor2.g = sampler->getColor().g;
         bgColor2.b = sampler->getColor().b;
-        cout << bgColor2 << endl;
     }
     else if(e.widget->getName() == "BG1Alpha")
     {
@@ -974,6 +959,7 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         bgColor2.a = slider->getValue();
     }
 }
+
 //--------------------------------------------------------------
 void ofApp::setupOsc()
 {
@@ -983,6 +969,7 @@ void ofApp::setupOsc()
 void ofApp::saveFiles()
 {
     ofxSVG svg;
+    //Add the Data points
     svg.addLayer("Points");
     ofColor s = (lineColor.r,lineColor.g,lineColor.b);
     ofColor f = (shapeColor.r,shapeColor.g,shapeColor.b);
@@ -998,10 +985,22 @@ void ofApp::saveFiles()
     else
     {
         ofLog(OF_LOG_ERROR, "Error: No Points to Save");
+        ofSystemAlertDialog("Error: No Points to Save");
     }
     svg.endPolygon();
+    
+    //Add the Center Spool
+    svg.addLayer("Center Cog");
     svg.circle(ofGetWidth()/2,ofGetHeight()/2, 100);
+    svg.circle(ofGetWidth()/2-50, ofGetHeight()/2, 10);
+    svg.circle(ofGetWidth()/2+50, ofGetHeight()/2, 10);
+    svg.circle(ofGetWidth()/2, ofGetHeight()/2+50, 10);
+    svg.circle(ofGetWidth()/2, ofGetHeight()/2-50, 10);
+    
+    //Save to Data Folder
     svg.saveToFile(saveFileName + ".svg");
+    
+    //Save XML Data
     lastTagNumber	= outputXML.addTag("CAMCOORDS");
     for (int i = ZERO; i < nPts; i++) {
         
@@ -1012,20 +1011,11 @@ void ofApp::saveFiles()
             outputXML.popTag();
         }
     }
-    
     outputXML.saveFile(saveFileName + ".xml");
     
-    string hr;
+    //Save Screen Shot for Reference
     ofImage img;
     img.grabScreen(0,0,ofGetWidth(), ofGetHeight());
-    if(ofGetHours() < 12)
-    {
-        hr = " AM";
-    }
-    else
-    {
-        hr = " PM";
-    }
     img.saveImage(saveFileName + ".png");
 }
 

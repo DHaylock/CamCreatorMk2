@@ -61,14 +61,12 @@ public:
     void drawCreatorArm();
     void updateGUIelements();
     
-    
     //---------------Object Declaration---------------
     ofEasyCam camera;
     ofxXmlSettings outputXML;
     ofxXmlSettings importedXMLData;
     ofxOscReceiver oscReceive;
     ofImage *colorSampler;
-    
     
     //---------------GUI Declaration---------------
     ofxUITabBar *guiTab;
@@ -79,7 +77,6 @@ public:
     ofxUICanvas *guiDebug;
     ofxUICanvas *guiCamera;
     ofxUICanvas *guiSave;
-    
     
     //---------------Variable Declarations---------------
     ofVec3f	rotateAmount;

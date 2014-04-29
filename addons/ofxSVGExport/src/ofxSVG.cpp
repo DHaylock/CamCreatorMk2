@@ -866,6 +866,7 @@ void ofxSVG::createRootSvg() {
 	saveXml.addAttribute("svg", "xmlns", "http://www.w3.org/2000/svg", 0);
 	saveXml.addAttribute("svg", "xmlns:xlink", "http://www.w3.org/1999/xlink", 0);
 	saveXml.addAttribute("svg", "version", "1.1", 0);
+    saveXml.addAttribute("svg", "viewBox", "0 0 "+ofToString(ofGetWidth())+ " " + ofToString(ofGetHeight()),0);
 
 }
 
