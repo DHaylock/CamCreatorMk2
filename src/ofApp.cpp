@@ -902,6 +902,7 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         ofxUIButton *toggle = (ofxUIButton *) e.widget;
         nPts = 0;
         rotatedAmount = 0;
+        dxfPts.clear();
     }
     else if(e.widget->getName() == "Save Name")
     {
@@ -1012,6 +1013,13 @@ void ofApp::saveFiles()
         }
     }
     outputXML.saveFile(saveFileName + ".xml");
+    
+    if (nPts > 0) {
+        for (int i = 0; i < nPts; i++) {
+            dxfPts.push_back(ofVec3f(pts[i].x,pts[i].y,0));
+        }
+    }
+    dxf.writeFile(saveFileName, dxfPts);
     
     //Save Screen Shot for Reference
     ofImage img;

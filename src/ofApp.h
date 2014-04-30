@@ -6,6 +6,7 @@
 #include "ofxOsc.h"
 #include "ofxXmlSettings.h"
 #include "ofxSVG.h"
+#include "ofxDxfExport.h"
 
 //Setup Constants
 #define OSCHOST "localhost" //change if separate computer
@@ -67,6 +68,8 @@ public:
     ofxXmlSettings importedXMLData;
     ofxOscReceiver oscReceive;
     ofImage *colorSampler;
+    ofxDxfExport dxf;
+    vector <ofVec3f> dxfPts;
     
     //---------------GUI Declaration---------------
     ofxUITabBar *guiTab;

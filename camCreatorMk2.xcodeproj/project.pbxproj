@@ -31,6 +31,7 @@
 		6A7E9773190E7F0F004656DD /* UdpSocketWin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A7E96F6190E7AB6004656DD /* UdpSocketWin.cpp */; };
 		6A7E9774190E7F26004656DD /* NetworkingUtils.h in Sources */ = {isa = PBXBuildFile; fileRef = 6A7E96ED190E7AB6004656DD /* NetworkingUtils.h */; };
 		6A7E9777190E812B004656DD /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6A7E9775190E811A004656DD /* Icon.icns */; };
+		6AA68ACE19111E420091A114 /* ofxDxfExport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AA68AB619111E420091A114 /* ofxDxfExport.cpp */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
@@ -188,6 +189,8 @@
 		6A7E975B190E7AB6004656DD /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
 		6A7E975C190E7AB6004656DD /* ofxXmlSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
 		6A7E9775190E811A004656DD /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
+		6AA68AB619111E420091A114 /* ofxDxfExport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxDxfExport.cpp; sourceTree = "<group>"; };
+		6AA68AB719111E420091A114 /* ofxDxfExport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxDxfExport.h; sourceTree = "<group>"; };
 		BBAB23BE13894E4700AA2426 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = ../../../libs/glut/lib/osx/GLUT.framework; sourceTree = "<group>"; };
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E45BE9710E8CC7DD009D7055 /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = /System/Library/Frameworks/AGL.framework; sourceTree = "<absolute>"; };
@@ -473,9 +476,28 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		6AA68A8D19111E420091A114 /* ofxDxfExport */ = {
+			isa = PBXGroup;
+			children = (
+				6AA68AB519111E420091A114 /* src */,
+			);
+			name = ofxDxfExport;
+			path = ../../../addons/ofxDxfExport;
+			sourceTree = "<group>";
+		};
+		6AA68AB519111E420091A114 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				6AA68AB619111E420091A114 /* ofxDxfExport.cpp */,
+				6AA68AB719111E420091A114 /* ofxDxfExport.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				6AA68A8D19111E420091A114 /* ofxDxfExport */,
 				6A7E96E6190E7AB6004656DD /* ofxOsc */,
 				6A7E9711190E7AB6004656DD /* ofxSVGExport */,
 				6A7E971D190E7AB6004656DD /* ofxUI */,
@@ -677,6 +699,7 @@
 				6A7E9765190E7B21004656DD /* ofxSVGXml.cpp in Sources */,
 				6A7E9774190E7F26004656DD /* NetworkingUtils.h in Sources */,
 				6A7E9769190E7BF7004656DD /* IpEndpointName.cpp in Sources */,
+				6AA68ACE19111E420091A114 /* ofxDxfExport.cpp in Sources */,
 				6A7E9772190E7ECC004656DD /* NetworkingUtilsWin.cpp in Sources */,
 				6A7E9773190E7F0F004656DD /* UdpSocketWin.cpp in Sources */,
 				6A7E976A190E7BFA004656DD /* OscOutboundPacketStream.cpp in Sources */,
@@ -827,6 +850,7 @@
 					../../../addons/ofxUI/libs,
 					../../../addons/ofxUI/src,
 					src,
+					../../../addons/ofxDxfExport/src,
 				);
 				ICON = "$(ICON_NAME_DEBUG)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
@@ -930,6 +954,7 @@
 					../../../addons/ofxUI/libs,
 					../../../addons/ofxUI/src,
 					src,
+					../../../addons/ofxDxfExport/src,
 				);
 				ICON = "$(ICON_NAME_RELEASE)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
