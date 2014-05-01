@@ -61,6 +61,8 @@ public:
     void drawCenterCog();
     void drawCreatorArm();
     void updateGUIelements();
+    void setupCogCoordinates();
+    void writeCogCoordinates();
     
     //---------------Object Declaration---------------
     ofEasyCam camera;
@@ -70,6 +72,14 @@ public:
     ofImage *colorSampler;
     ofxDxfExport dxf;
     vector <ofVec3f> dxfPts;
+    ofPath s;
+    vector <ofPolyline> d;
+    vector <ofVec3f> centerCog;
+    vector <ofVec3f> outerCog;
+    vector <ofVec3f> leftPinCog;
+    vector <ofVec3f> topPinCog;
+    vector <ofVec3f> rightPinCog;
+    vector <ofVec3f> bottomPinCog;
     
     //---------------GUI Declaration---------------
     ofxUITabBar *guiTab;

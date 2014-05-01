@@ -8,6 +8,7 @@ void ofApp::setup()
     ofSetWindowTitle("Cam Creator");
     setupGuis();
     setupValues();
+    setupCogCoordinates();
 }
 //--------------------------------------------------------------
 void ofApp::update(){
@@ -25,7 +26,7 @@ void ofApp::update(){
     else
     {
         ofLog(OF_LOG_ERROR, "ERROR: No Update Mode Selected");
-        ofSystemAlertDialog("Error: No Update Mode Selected");
+        ofSystemAlertDialog("ERROR: No Update Mode Selected");
     }
     
     updateGUIelements();
@@ -49,7 +50,7 @@ void ofApp::draw()
     else
     {
         ofLog(OF_LOG_NOTICE,"ERROR: No Draw Mode Selected");
-        ofSystemAlertDialog("Error: No Draw Mode Selected");
+        ofSystemAlertDialog("ERROR: No Draw Mode Selected");
     }
     
     drawCreatorArm();
@@ -250,11 +251,12 @@ void ofApp::setupGuis()
 void ofApp::setupSaveGui()
 {
     
-    guiSave = new ofxUICanvas(870,0,400,33);
+    guiSave = new ofxUICanvas(870,0,600,33);
     guiSave->setName("Save");
     guiSave->setTheme(OFX_UI_THEME_HAYLOCK);
     guiSave->addWidgetRight(new ofxUITextInput(LENGTH, "Save Name", "FileName", OFX_UI_FONT_MEDIUM));
     guiSave->addWidgetRight(new ofxUILabelButton("Save Files", false,LENGTH/2,HEIGHT,OFX_UI_FONT_MEDIUM));
+    guiSave->addWidgetRight(new ofxUILabelButton("Show Save Folder",false));
     ofAddListener(guiSave->newGUIEvent, this, &ofApp::guiEvent);
     
 }
@@ -755,21 +757,123 @@ void ofApp::drawPlayback()
     }
 }
 //--------------------------------------------------------------
+void ofApp::setupCogCoordinates()
+{
+    s.setCircleResolution(50);
+    s.circle(ofGetWidth()/2,ofGetHeight()/2, 100);
+    s.close();// Outer Cog
+    s.circle(ofGetWidth()/2, ofGetHeight()/2, 20);
+    s.close();// Inner Cog
+    s.circle(ofGetWidth()/2-50, ofGetHeight()/2, 10);
+    s.close();// Left Cog
+    s.circle(ofGetWidth()/2+50, ofGetHeight()/2, 10);
+    s.close();// Right Cog
+    s.circle(ofGetWidth()/2, ofGetHeight()/2-50, 10);
+    s.close();// Top Cog
+    s.circle(ofGetWidth()/2, ofGetHeight()/2+50, 10);
+    s.close();// Bottom Cog
+    
+    d = s.getOutline();
+    
+    if (d.size() >0) {
+        for (int i = 0; i < d.size(); i++) {
+            for (int j = 1; j < d[i].size()-1; j++) { // Odd centre point is drawn
+                if (i == 0)
+                {
+                    outerCog.push_back(ofVec3f(d[i][j].x,d[i][j].y,0));
+                }
+                else if (i == 1)
+                {
+                    centerCog.push_back(ofVec3f(d[i][j].x,d[i][j].y,0));
+                }
+                else if (i == 2)
+                {
+                    leftPinCog.push_back(ofVec3f(d[i][j].x,d[i][j].y,0));
+                }
+                else if (i == 3)
+                {
+                    rightPinCog.push_back(ofVec3f(d[i][j].x,d[i][j].y,0));
+                }
+                else if (i == 4)
+                {
+                    topPinCog.push_back(ofVec3f(d[i][j].x,d[i][j].y,0));
+                }
+                else if (i == 5)
+                {
+                    bottomPinCog.push_back(ofVec3f(d[i][j].x,d[i][j].y,0));
+                }
+            }
+        }
+    }
+}
+//--------------------------------------------------------------
 void ofApp::drawCenterCog()
 {
-    
     ofPushStyle();
     ofSetColor(0,200);
     ofNoFill();
-    ofSetCircleResolution(100);
+    if (outerCog.size() > 0) {
+        ofNoFill();
+        ofSetColor(0, 0, 0);
+        ofBeginShape();
+        for (int i = 1; i < outerCog.size()-1; i++) {
+            ofVertex(outerCog[i].x, outerCog[i].y);
+        }
+        ofEndShape(true);
+    }
+    if (centerCog.size() > 0) {
+        ofNoFill();
+        ofSetColor(0, 0, 0);
+        ofBeginShape();
+        for (int i = 1; i < centerCog.size()-1; i++) {
+            ofVertex(centerCog[i].x, centerCog[i].y);
+        }
+        ofEndShape(true);
+    }
+    if (leftPinCog.size() > 0) {
+        ofNoFill();
+        ofSetColor(0, 0, 0);
+        ofBeginShape();
+        for (int i = 1; i < leftPinCog.size()-1; i++) {
+            ofVertex(leftPinCog[i].x, leftPinCog[i].y);
+        }
+        ofEndShape(true);
+    }
+    if (rightPinCog.size() > 0) {
+        ofNoFill();
+        ofSetColor(0, 0, 0);
+        ofBeginShape();
+        for (int i = 1; i < rightPinCog.size()-1; i++) {
+            ofVertex(rightPinCog[i].x, rightPinCog[i].y);
+        }
+        ofEndShape(true);
+    }
+    if (topPinCog.size() > 0) {
+        ofNoFill();
+        ofSetColor(0, 0, 0);
+        ofBeginShape();
+        for (int i = 1; i < topPinCog.size()-1; i++) {
+            ofVertex(topPinCog[i].x, topPinCog[i].y);
+        }
+        ofEndShape(true);
+    }
+    if (bottomPinCog.size() > 0) {
+        ofNoFill();
+        ofSetColor(0, 0, 0);
+        ofBeginShape();
+        for (int i = 1; i < bottomPinCog.size()-1; i++) {
+            ofVertex(bottomPinCog[i].x, bottomPinCog[i].y);
+        }
+        ofEndShape(true);
+    }
+    /*ofSetCircleResolution(100);
     ofCircle(ofGetWidth()/2, ofGetHeight()/2, 100);
     ofCircle(ofGetWidth()/2, ofGetHeight()/2, 20);
     ofCircle(ofGetWidth()/2-50, ofGetHeight()/2, 10);
     ofCircle(ofGetWidth()/2+50, ofGetHeight()/2, 10);
     ofCircle(ofGetWidth()/2, ofGetHeight()/2-50, 10);
-    ofCircle(ofGetWidth()/2, ofGetHeight()/2+50, 10);
+    ofCircle(ofGetWidth()/2, ofGetHeight()/2+50, 10);*/
     ofPopStyle();
-    
 }
 //--------------------------------------------------------------
 void ofApp::guiEvent(ofxUIEventArgs &e)
@@ -916,6 +1020,11 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         saveFiles();
         return;
     }
+    else if(e.widget->getName() == "Show Save Folder")
+    {
+        ofxUIButton *toggle = (ofxUIButton *) e.widget;
+        ofSystemLoadDialog("Save Folder",true,"../Resources/data/");
+    }
     else if(e.widget->getName() == "Record Data")
     {
         ofxUIButton *toggle = (ofxUIButton *) e.widget;
@@ -960,7 +1069,6 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         bgColor2.a = slider->getValue();
     }
 }
-
 //--------------------------------------------------------------
 void ofApp::setupOsc()
 {
@@ -985,8 +1093,8 @@ void ofApp::saveFiles()
     }
     else
     {
-        ofLog(OF_LOG_ERROR, "Error: No Points to Save");
-        ofSystemAlertDialog("Error: No Points to Save");
+        ofLog(OF_LOG_ERROR, "ERROR: No Points to Save");
+        ofSystemAlertDialog("ERROR: No Points to Save");
     }
     svg.endPolygon();
     
@@ -1019,13 +1127,18 @@ void ofApp::saveFiles()
             dxfPts.push_back(ofVec3f(pts[i].x,pts[i].y,0));
         }
     }
-    dxf.writeFile(saveFileName, dxfPts);
+    dxf.writeFile(saveFileName);
+    dxf.addPoints(outerCog, false);
+    dxf.addPoints(centerCog, false);
+    dxf.addPoints(leftPinCog, false);
+    dxf.addPoints(rightPinCog, false);
+    dxf.addPoints(topPinCog, false);
+    dxf.addPoints(bottomPinCog, false);
+    dxf.addPoints(dxfPts, true);
+    dxf.endFile();
     
     //Save Screen Shot for Reference
     ofImage img;
     img.grabScreen(0,0,ofGetWidth(), ofGetHeight());
     img.saveImage(saveFileName + ".png");
 }
-
-
-
