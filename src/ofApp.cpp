@@ -84,6 +84,33 @@ void ofApp::keyPressed(int key)
             saveFiles();
             break;
     }
+    if (key == '=')
+    {
+        ofVec3f centerEngraving(ofGetWidth()/2, ofGetHeight()/2,ZERO);
+        engravingString = saveFileName+".cam";
+        engravingChars = engravingFont.getStringAsPoints(engravingString);
+            
+            if (engravingChars.size() > 0)
+            {
+                for (int p = 0; p < engravingChars.size(); p++) {
+                    EngravingText s;
+                    for(int k = 0; k <(int)engravingChars[p].getOutline().size(); k++){
+                        if( k!= 0)ofNextContour(true);
+                        for(int i = 0; i < (int)engravingChars[p].getOutline()[k].size(); i++){
+                            s.pts.push_back(ofVec3f(engravingChars[p].getOutline()[k].getVertices()[i].x+centerEngraving.x-150, engravingChars[p].getOutline()[k].getVertices()[i].y+centerEngraving.y-150,0).rotated(90,centerEngraving, ofVec3f(0,0,1)));
+                        }
+                        engravingStringPts.push_back(s);
+                    }
+                }
+            }
+    }
+    if (key == ']')
+    {
+        engravingString.clear();
+        engravingChars.clear();
+        engravingStringPts.clear();
+    }
+    
 }
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key)
@@ -150,7 +177,7 @@ void ofApp::setupValues()
     //---------------Variable Setup---------------
     recordedPoint = false;
     save = false;
-    mode = true;
+    //mode = true;
     bProgressNextRotation = false;
     rotatedAmount = ZERO;
     nPts = ZERO;
@@ -182,6 +209,26 @@ void ofApp::setupValues()
     OSC_HOST = OSCHOST;
     
     saveFileName = "Test";
+    engravingFont.loadFont("mono.ttf", 20,true, true,true);
+    engravingString = "YourCamName.cam";
+    engravingChars = engravingFont.getStringAsPoints(engravingString);
+
+        if (engravingChars.size() > 0)
+    {
+        for (int p = 0; p < engravingChars.size(); p++) {
+            EngravingText s;
+            for(int k = 0; k <(int)engravingChars[p].getOutline().size(); k++){
+                if( k!= 0)ofNextContour(true);
+                for(int i = 0; i < (int)engravingChars[p].getOutline()[k].size(); i++){
+                    s.pts.push_back(ofVec3f(engravingChars[p].getOutline()[k].getVertices()[i].x+center.x-150, engravingChars[p].getOutline()[k].getVertices()[i].y+center.y-150,0).rotated(90,center, ofVec3f(0,0,1)));
+                    
+                }
+                engravingStringPts.push_back(s);
+            }
+        }
+    }
+    
+    
     bDrawnAnything = false;
 }
 //--------------------------------------------------------------
@@ -714,7 +761,7 @@ void ofApp::drawPlayback()
     }
     
     drawCenterCog();
-    
+    drawEngraving();
     ofPopMatrix();
     ofPopMatrix();
     ofPopMatrix();
@@ -773,6 +820,29 @@ void ofApp::setupCogCoordinates()
             }
         }
     }
+}
+//--------------------------------------------------------------
+void ofApp::drawEngraving()
+{
+    
+    ofPushMatrix();
+    //ofVec3f center(ofGetWidth()/2-200, ofGetHeight()/2,0);
+    //ofTranslate(center);
+    ofPushStyle();
+    ofSetColor(0, 0, 0);
+    ofNoFill();
+    ofBeginShape();
+    if (engravingStringPts.size() > 0)
+    {
+        for (int p = 0; p < engravingStringPts.size(); p++) {
+            for(int k = 0; k <(int)engravingStringPts[p].pts.size(); k++){
+                ofVertex(engravingStringPts[p].pts[k].x, engravingStringPts[p].pts[k].y);
+            }
+            ofEndShape(true);
+        }
+    }
+    ofPopStyle();
+    ofPopMatrix();
 }
 //--------------------------------------------------------------
 void ofApp::drawCenterCog()
@@ -986,6 +1056,7 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
     {
         ofxUITextInput * textField = (ofxUITextInput *) e.widget;
         saveFileName = textField->getTextString();
+        engravingString = textField->getTextString();
     }
     else if(e.widget->getName() == "Save Files")
     {
@@ -1051,6 +1122,15 @@ void ofApp::setupOsc()
 //--------------------------------------------------------------
 void ofApp::saveFiles()
 {
+    
+    //ofDirectory dir(saveFileName);
+    //if(!dir.exists())
+    //{
+    //    dir.create(true);
+    //}
+    //dir.setWriteable(true);
+    
+    //ofSystemSaveDialog(saveFileName, "Save File");
     ofxSVG svg;
     //Add the Data points
     svg.addLayer("Points");
@@ -1108,7 +1188,21 @@ void ofApp::saveFiles()
     dxf.addPoints(rightPinCog, false);
     dxf.addPoints(topPinCog, false);
     dxf.addPoints(bottomPinCog, false);
-    dxf.addPoints(dxfPts, true);
+    dxf.addPoints(dxfPts, false);
+    if (engravingStringPts.size() > 0)
+    {
+        for (int i = 0; i < engravingStringPts.size(); i++) {
+            if (i <= engravingStringPts.size())
+            {
+                dxf.addPoints(engravingStringPts[i].pts, false);
+            }
+            else
+            {
+                dxf.addPoints(engravingStringPts.back().pts, true);
+            }
+        }
+    }
+    
     dxf.endFile();
     
     //Save Screen Shot for Reference

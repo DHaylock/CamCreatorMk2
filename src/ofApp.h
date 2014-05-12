@@ -17,6 +17,11 @@
 #define POSY 40
 #define ZERO 0
 
+class EngravingText {
+public:
+    vector<ofVec3f> pts;
+};
+
 class ofApp : public ofBaseApp{
     
 public:
@@ -63,6 +68,7 @@ public:
     void updateGUIelements();
     void setupCogCoordinates();
     void writeCogCoordinates();
+    void drawEngraving();
     
     //---------------Object Declaration---------------
     ofEasyCam camera;
@@ -164,5 +170,13 @@ public:
     string message;
     string saveFileName;
     string OSC_HOST;
+    
+
+    
+    vector<EngravingText> engravingStringPts;
+    ofTrueTypeFont engravingFont;
+    vector<ofTTFCharacter> engravingChars;
+    string engravingString;
+    
     
 };
