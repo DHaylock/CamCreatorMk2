@@ -1,6 +1,4 @@
 #include "ofApp.h"
-
-
 //--------------------------------------------------------------
 void ofApp::setup()
 {
@@ -12,7 +10,6 @@ void ofApp::setup()
 }
 //--------------------------------------------------------------
 void ofApp::update(){
-    
     //---------------Select Which Mode---------------
     if (rPmode == true)
     {
@@ -28,9 +25,7 @@ void ofApp::update(){
         ofLog(OF_LOG_ERROR, "ERROR: No Update Mode Selected");
         ofSystemAlertDialog("ERROR: No Update Mode Selected");
     }
-    
     updateGUIelements();
-    
 }
 //--------------------------------------------------------------
 void ofApp::draw()
@@ -131,19 +126,15 @@ void ofApp::dragEvent(ofDragInfo dragInfo)
     
     if (bImportMode == true)
     {
-        
         if (dragInfo.files.size() > 0) {
-            //ofLog(OF_LOG_ERROR, "FILE Dragged on "+ ofToString(dragInfo.files));
             importMode(dragInfo.files[0]);
         }
-        
     }
     else
     {
         //Nothing
         ofSystemAlertDialog("Please Turn The Import Toggle to Active");
     }
-    
 }
 //--------------------------------------------------------------
 //--------------------------------------------------------------
@@ -156,36 +147,14 @@ void ofApp::setupValues()
     ofSetVerticalSync(true);
     ofSetFrameRate(60);
     
-    
     //---------------Variable Setup---------------
     recordedPoint = false;
-    /*showShape = false;
-     showLines = false;
-     showCircles = false;
-     showData = false;
-     showOutline = false;
-     showCamera = false;
-     drawShader = false;*/
     save = false;
     mode = true;
     bProgressNextRotation = false;
-    
-    //lineColor = ofColor::white;
-    //shapeColor = ofColor::white;
-    //bgColor1 = ofColor::gray;
-    //bgColor2 = (1, 17, 30, 255);
-    
     rotatedAmount = ZERO;
     nPts = ZERO;
-    //captureRate = 15;
-    //rotateAmount.set(ZERO,ZERO,1);
-    //speedOfRotation = 1.0f;
-    //speedOfPlaybackRotation = 1.0f;
-    //playbackRotateAmount.set(ZERO,ZERO,1.0f);
-    //debugArmPos = 300.0f;
     playbackCounter = ZERO;
-    //playbackRotationSpeed = 1;
-    //playbackRotationTime = 20000;
     resetValue = 360;
     pointTester = ZERO;
     
@@ -213,10 +182,7 @@ void ofApp::setupValues()
     OSC_HOST = OSCHOST;
     
     saveFileName = "Test";
-    
     bDrawnAnything = false;
-    //camera.setGlobalPosition(-600,527,1001);
-    
 }
 //--------------------------------------------------------------
 void ofApp::setupGuis()
@@ -250,7 +216,6 @@ void ofApp::setupGuis()
 //--------------------------------------------------------------
 void ofApp::setupSaveGui()
 {
-    
     guiSave = new ofxUICanvas(870,0,600,33);
     guiSave->setName("Save");
     guiSave->setTheme(OFX_UI_THEME_HAYLOCK);
@@ -258,7 +223,6 @@ void ofApp::setupSaveGui()
     guiSave->addWidgetRight(new ofxUILabelButton("Save Files", false,LENGTH/2,HEIGHT,OFX_UI_FONT_MEDIUM));
     guiSave->addWidgetRight(new ofxUILabelButton("Show Save Folder",false));
     ofAddListener(guiSave->newGUIEvent, this, &ofApp::guiEvent);
-    
 }
 //--------------------------------------------------------------
 void ofApp::setupPlaybackGui()
@@ -298,7 +262,6 @@ void ofApp::setupPlaybackGui()
 //--------------------------------------------------------------
 void ofApp::setupRecordGui()
 {
-    
     guiRecord = new ofxUICanvas(ZERO,POSY,LENGTH,300);
     guiRecord->setTheme(OFX_UI_THEME_HAYLOCK);
     guiRecord->setName("Record");
@@ -316,6 +279,9 @@ void ofApp::setupRecordGui()
     guiRecord->addSpacer();
     guiRecord->addWidgetDown(new ofxUILabelToggle("OSC or Debug",false, LENGTH, HEIGHT,OFX_UI_FONT_MEDIUM,false));
     guiRecord->addSpacer();
+    //guiRecord->addWidgetDown(new ofxUILabelToggle("Map Values",false, LENGTH, HEIGHT,OFX_UI_FONT_MEDIUM,false)); //Experiment
+    guiRecord->addWidgetDown(new ofxUIRangeSlider("Limiter",0,592,50,500,LENGTH,HEIGHT));
+    guiRecord->addSpacer();
     guiRecord->addWidgetDown(new ofxUILabel("OSC",OFX_UI_FONT_MEDIUM));
     guiRecord->addSpacer();
     guiRecord->addWidgetDown(new ofxUILabel("OSC Host",OFX_UI_FONT_MEDIUM));
@@ -331,7 +297,6 @@ void ofApp::setupRecordGui()
     guiRecord->autoSizeToFitWidgets();
     guiRecord->setVisible(false);
     ofAddListener(guiRecord->newGUIEvent, this, &ofApp::guiEvent);
-    
 }
 //--------------------------------------------------------------
 void ofApp::setupDebugGui()
@@ -339,7 +304,6 @@ void ofApp::setupDebugGui()
     colorSampler = new ofImage();
     colorSampler->loadImage("GUI/colorSamplerImage.png");
     string textString = "Hello, this application allows you to create CAM cogs from realtime and prerecorded data. To change the background color simply select a color from the pallete below.";
-    
     guiDebug = new ofxUICanvas(ZERO,POSY,LENGTH*2,800);
     guiDebug->setTheme(OFX_UI_THEME_HAYLOCK);
     guiDebug->setName("Misc");
@@ -351,7 +315,6 @@ void ofApp::setupDebugGui()
     guiDebug->addWidgetRight(new ofxUIImageSampler(LENGTH, LENGTH, colorSampler, "Gradient_Color_2"));
     guiDebug->addWidgetSouthOf(new ofxUIIntSlider("BG1Alpha", 0.0, 255.0, 255, LENGTH, HEIGHT),"Gradient_Color_1");
     guiDebug->addWidgetSouthOf(new ofxUIIntSlider("BG2Alpha", 0.0, 255.0, 255, LENGTH, HEIGHT),"Gradient_Color_2");
-    
     guiDebug->autoSizeToFitWidgets();
     ofAddListener(guiDebug->newGUIEvent, this, &ofApp::guiEvent);
     guiDebug->setVisible(true);
@@ -371,8 +334,6 @@ void ofApp::setupCameraGui()
 void ofApp::setupImportGui()
 {
     string textString = "Ensure that your data is formatted like the below example \n<pts> \n  <xpt>value</xpt>\n  <ypt>value</ypt>\n<pts>";
-    
-    
     guiImport = new ofxUICanvas(ZERO,POSY,ofGetWidth()/2,300);
     guiImport->setTheme(OFX_UI_THEME_HAYLOCK);
     guiImport->setName("Import");
@@ -403,11 +364,16 @@ void ofApp::drawRecording()
     ofBeginShape();
     for (int i = ZERO; i < nPts; i++){
         ofVertex(pts[i].x, pts[i].y);
-        ofCircle(pts[i].x,pts[i].y,3);
+        ofCircle(pts[i].x, pts[i].y,3);
     }
     ofEndShape(true);
     
     drawCenterCog();
+    ofNoFill();
+    ofSetCircleResolution(100);
+    //ofSetColor(0, 0, 0,200);
+    //ofCircle(ofGetWidth()/2, ofGetHeight()/2, innerCircleLimit);
+    //ofCircle(ofGetWidth()/2, ofGetHeight()/2, outerCircleLimit);
 }
 //--------------------------------------------------------------
 void ofApp::playbackMode()
@@ -534,7 +500,7 @@ void ofApp::recordMode()
                             ofMessage msg("Captured Point");
                             ofSendMessage(msg);
                             recordedPoint = true;
-                            pts[nPts].x = m.getArgAsInt32(0);
+                            pts[nPts].x = ofClamp(m.getArgAsInt32(0),innerCircleLimit,outerCircleLimit);
                             pts[nPts].y = ofGetHeight()/2;
                             nPts++;
                             bNextPoint = false;
@@ -650,6 +616,7 @@ void ofApp::drawPlayback()
             ofVertex(pts[i].x, pts[i].y);
         }
         ofEndShape(true);
+        ofDrawBitmapString("Start Point", pts[0]);
     }
     else
     {
@@ -665,6 +632,7 @@ void ofApp::drawPlayback()
             ofVertex(pts[i].x, pts[i].y);
         }
         ofEndShape(true);
+        ofDrawBitmapString("Start Point", pts[0]);
         ofPopStyle();
     }
     else
@@ -679,7 +647,7 @@ void ofApp::drawPlayback()
                 ofLine(ofGetWidth()/2, ofGetHeight()/2,pts[i].x,pts[i].y);
                 ofSetColor(lineColor);
                 ofCircle(pts[i].x,pts[i].y,2);
-                ofDrawBitmapString(ofToString(pts[0]), pts[0]);
+                ofDrawBitmapString("Start Point", pts[0]);
             }
         }
     }
@@ -693,7 +661,7 @@ void ofApp::drawPlayback()
                 ofSetColor(lineColor);
                 ofCircle(pts[i].x,pts[i].y,5);
             }
-            ofDrawBitmapString(ofToString(pts[0]), pts[0]);
+            ofDrawBitmapString("Start Point", pts[0]);
         }
     }
     else
@@ -1000,6 +968,12 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
     {
         ofxUIToggle *toggle = (ofxUIToggle *) e.widget;
         mode = toggle->getValue();
+    }
+    else if(e.widget->getName() == "Limiter")
+    {
+        ofxUIRangeSlider *rslider = (ofxUIRangeSlider *) e.widget;
+        innerCircleLimit = rslider->getScaledValueLow();
+        outerCircleLimit = rslider->getScaledValueHigh();
     }
     else if(e.widget->getName() == "Clear")
     {

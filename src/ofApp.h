@@ -135,6 +135,8 @@ public:
     int lineR, lineG, lineB;
     int pointTester;
     int OSC_PORT;
+    int outerCircleLimit;
+    int innerCircleLimit;
     
     bool recordedPoint;
     bool isRecording;
