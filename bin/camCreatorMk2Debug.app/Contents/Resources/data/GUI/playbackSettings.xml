@@ -11,7 +11,12 @@
 <Widget>
     <Kind>8</Kind>
     <Name>Degrees_RotatedPB</Name>
-    <Value>78.000000000</Value>
+    <Value>19.500000000</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>Save Engraving</Name>
+    <Value>0</Value>
 </Widget>
 <Widget>
     <Kind>17</Kind>

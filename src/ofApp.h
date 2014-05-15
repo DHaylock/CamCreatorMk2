@@ -101,6 +101,7 @@ public:
     ofVec3f	rotateAmount;
     ofVec3f  playbackRotateAmount;// amount to rotate in x,y
     ofVec3f  pts[MAX_PTS];
+    ofVec3f  scaledPts[MAX_PTS];
     ofVec3f	xAxisMin;
     ofVec3f	xAxisMax;
     ofVec3f	yAxisMin;
@@ -166,6 +167,7 @@ public:
     bool bProgressNextRotation;
     bool bImportMode;
     bool debugMode;
+    bool saveEngraving;
     
     string message;
     string saveFileName;

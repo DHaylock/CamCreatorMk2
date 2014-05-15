@@ -288,6 +288,7 @@ void ofApp::setupPlaybackGui()
     guiPlayback->addWidgetRight(new ofxUINumberDialer(ZERO, 30000, 1, 2, "Play_Rate", OFX_UI_FONT_MEDIUM));
     guiPlayback->addWidgetDown(new ofxUILabel("Degrees Rotated", OFX_UI_FONT_MEDIUM));
     guiPlayback->addWidgetRight(new ofxUINumberDialer(ZERO, 360, 1, 2, "Degrees_RotatedPB", OFX_UI_FONT_MEDIUM));
+    guiPlayback->addWidgetRight(new ofxUILabelToggle("Save Engraving",false,LENGTH, HEIGHT,OFX_UI_FONT_MEDIUM,false));
     guiPlayback->addSpacer();
     guiPlayback->addWidgetDown(new ofxUILabelToggle("Show Camera",false,LENGTH, HEIGHT,OFX_UI_FONT_MEDIUM,false));
     guiPlayback->addWidgetRight(new ofxUILabelToggle("Show Lines",false,LENGTH, HEIGHT,OFX_UI_FONT_MEDIUM,false));
@@ -761,7 +762,15 @@ void ofApp::drawPlayback()
     }
     
     drawCenterCog();
-    drawEngraving();
+    
+    if (saveEngraving == true) {
+        drawEngraving();
+    }
+    else
+    {
+        
+    }
+    
     ofPopMatrix();
     ofPopMatrix();
     ofPopMatrix();
@@ -1009,6 +1018,11 @@ void ofApp::guiEvent(ofxUIEventArgs &e)
         showCamera = toggle->getValue();
         guiCamera->setVisible(toggle->getValue());
     }
+    else if(e.widget->getName() == "Save Engraving")
+    {
+        ofxUIToggle *toggle = (ofxUIToggle *) e.widget;
+        saveEngraving = toggle->getValue();
+    }
     else if(e.widget->getName() == "Show Lines")
     {
         ofxUIToggle *toggle = (ofxUIToggle *) e.widget;
@@ -1171,6 +1185,7 @@ void ofApp::saveFiles()
             int tagNum = outputXML.addTag("PT");
             outputXML.setValue("PT:X", pts[i].x, tagNum);
             outputXML.setValue("PT:Y",pts[i].y, tagNum);
+            outputXML.setValue("PT:VIX",ofMap(pts[i].x/10,23,150,100,150), tagNum);
             outputXML.popTag();
         }
     }
@@ -1188,19 +1203,32 @@ void ofApp::saveFiles()
     dxf.addPoints(rightPinCog, false);
     dxf.addPoints(topPinCog, false);
     dxf.addPoints(bottomPinCog, false);
-    dxf.addPoints(dxfPts, false);
-    if (engravingStringPts.size() > 0)
-    {
-        for (int i = 0; i < engravingStringPts.size(); i++) {
-            if (i <= engravingStringPts.size())
-            {
-                dxf.addPoints(engravingStringPts[i].pts, false);
-            }
-            else
-            {
-                dxf.addPoints(engravingStringPts.back().pts, true);
+    
+    if (saveEngraving == true) {
+        
+        dxf.addPoints(dxfPts, false);
+        
+        if (engravingStringPts.size() > 0)
+        {
+            for (int i = 0; i < engravingStringPts.size(); i++) {
+                if (i <= engravingStringPts.size())
+                {
+                    dxf.addPoints(engravingStringPts[i].pts, false);
+                }
+                else
+                {
+                    dxf.addPoints(engravingStringPts.back().pts, true);
+                }
             }
         }
+    }
+    else if(saveEngraving == false)
+    {
+        dxf.addPoints(dxfPts, true);
+    }
+    else
+    {
+        
     }
     
     dxf.endFile();
