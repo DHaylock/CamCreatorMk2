@@ -1185,7 +1185,7 @@ void ofApp::saveFiles()
             int tagNum = outputXML.addTag("PT");
             outputXML.setValue("PT:X", pts[i].x, tagNum);
             outputXML.setValue("PT:Y",pts[i].y, tagNum);
-            outputXML.setValue("PT:VIX",ofMap(pts[i].x/10,23,150,100,150), tagNum);
+            outputXML.setValue("PT:VIX",ofMap(pts[i].x/10,23,150,250,25), tagNum);
             outputXML.popTag();
         }
     }
